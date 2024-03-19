@@ -3,7 +3,7 @@
 ### Checklist
 
 - [x] Assignment 1
-- [ ] Assignment 2
+- [x] Assignment 2
 
 ### How to Install
 ```sh
