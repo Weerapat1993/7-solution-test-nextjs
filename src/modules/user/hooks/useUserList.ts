@@ -1,6 +1,7 @@
 import { getUserList } from "@/redux/slices/userSlice";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useEffect } from "react";
+import { userNormalization } from "../utils/normalize";
 
 export const useUserList = () => {
     const list = useAppSelector((state) => state.userReducer.list);
@@ -18,8 +19,11 @@ export const useUserList = () => {
     const refetch = () => {
         dispatch(getUserList())
     }
+
+    const dataNormalization = userNormalization(list)
     return {
         list,
+        dataNormalization,
         isFetch,
         isLoading,
         error,

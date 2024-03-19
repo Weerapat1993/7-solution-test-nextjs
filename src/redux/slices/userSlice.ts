@@ -43,7 +43,6 @@ export const user = createAppSlice({
           state.error = null
         },
         fulfilled: (state, action) => {
-          console.log(action.payload)
           state.isFetch = true
           state.isLoading = false
           state.list = action.payload
