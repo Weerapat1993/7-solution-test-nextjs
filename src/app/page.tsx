@@ -1,95 +1,76 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client"
+import { useState } from 'react'
+import { ListItem, ListTable } from '@/components/ListItem';
+import Typography from '@mui/material/Typography';
+import Grid from '@mui/material/Grid';
+import styles from './page.module.css'
+
+const products = require('@/data/product.json').map((item: any, key: number) => ({ ...item, _id: key + 1 }))
+
+type Item = {
+  _id?: number
+  type: string
+  name: string
+}
 
 export default function Home() {
+  const [fruits, setFruit] = useState([])
+  const [vegetables, setVegetable] = useState([])
+  const [keys, setKey] = useState([])
+  const productsFilter = products.filter((item: Item) => {
+    let result = keys.reduce((prev, cur) => {
+      if(item._id === cur) {
+        return prev + 1
+      } else {
+        return prev + 0
+      }
+    }, 0)
+    return result === 0
+  })
+  const handleAddItem = (item: Item) => {
+    switch(item.type) {
+      case 'Fruit':
+        setFruit(fruits.concat([item]))
+        setKey(keys.concat(item._id))
+        break
+      case 'Vegetable':
+        setVegetable(vegetables.concat([item]))
+        setKey(keys.concat(item._id))
+        break
+    }
+  }
+  const handleDeleteItem = (item: Item) => {
+    switch(item.type) {
+      case 'Fruit':
+        setFruit(fruits.filter(cart => cart._id !== item._id))
+        setKey(keys.filter(key => key !== item._id))
+        break
+      case 'Vegetable':
+        setVegetable(vegetables.filter(cart => cart._id !== item._id))
+        setKey(keys.filter(key => key !== item._id))
+        break
+    }
+  }
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
+      <Typography align='center' variant="h3" gutterBottom>
+        Product List
+      </Typography>
+      <Grid container spacing={1}>
+        <Grid item xs={4}>
+          <ListItem list={productsFilter} onClick={handleAddItem} />
+        </Grid>
+        <Grid item xs={4}>
+          <ListTable title='Fruit'>
+            <ListItem list={fruits} onClick={handleDeleteItem} />
+          </ListTable>
+        </Grid>
+        <Grid item xs={4}>
+          <ListTable title='Vegetable'>
+            <ListItem list={vegetables} onClick={handleDeleteItem} />
+          </ListTable>
+        </Grid>
+      </Grid>
     </main>
   );
 }
