@@ -15,7 +15,7 @@ export default function ListTable({ children, title }: Props) {
             title={title}
             sx={{ color: 'white', textAlign: 'center', fontSize: 14, background: 'gray', padding: 1 }}
         />
-        <CardContent sx={{ p: 1 }}>
+        <CardContent sx={{ p: 1, minHeight: '75vh' }}>
             {children}
         </CardContent>
     </Card>
