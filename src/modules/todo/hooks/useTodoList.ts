@@ -8,6 +8,26 @@ export const useTodoList = () => {
     const vegetables = useAppSelector((state) => state.todoReducer.vegetables);
     const keys = useAppSelector((state) => state.todoReducer.keys);
 
+    const handlePopItem = (type: string) => {
+        let id: number | undefined = 0;
+        switch(type) {
+            case 'Fruit':
+                if(fruits.length) {
+                    id = fruits[fruits.length - 1]._id
+                    dispatch(setKey(keys.filter(key => key !== id)))
+                    dispatch(setFruit(fruits.filter((item) => item._id !== id)))
+                }
+                break
+            case 'Vegetable':
+                if(vegetables.length) {
+                    id = vegetables[vegetables.length - 1]._id
+                    dispatch(setKey(keys.filter(key => key !== id)))
+                    dispatch(setVegetable(vegetables.filter((item) => item._id !== id)))
+                }
+                break
+        }
+    }
+
     const handleAddItem = (item: Item) => {
         switch(item.type) {
           case 'Fruit':
@@ -42,5 +62,6 @@ export const useTodoList = () => {
         setKey: (data: number[]) => dispatch(setKey(data)),
         handleAddItem,
         handleDeleteItem,
+        handlePopItem,
     }
 }

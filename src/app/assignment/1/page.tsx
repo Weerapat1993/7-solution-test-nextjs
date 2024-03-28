@@ -15,6 +15,7 @@ export default function Assignment1() {
     keys,
     handleAddItem,
     handleDeleteItem,
+    handlePopItem,
   } = useTodoList()
   const filterProduct = (item: Item) => {
     let result = keys.reduce((prev, cur) => {
@@ -34,12 +35,12 @@ export default function Assignment1() {
           <ListItem list={productsFilter} onClick={handleAddItem} />
         </Grid>
         <Grid item xs={4}>
-          <ListTable title='Fruit'>
+          <ListTable title='Fruit' onClick={() => handlePopItem('Fruit')}>
             <ListItem list={fruits} onClick={handleDeleteItem} />
           </ListTable>
         </Grid>
         <Grid item xs={4}>
-          <ListTable title='Vegetable'>
+          <ListTable title='Vegetable' onClick={() => handlePopItem('Vegetable')}>
             <ListItem list={vegetables} onClick={handleDeleteItem} />
           </ListTable>
         </Grid>
