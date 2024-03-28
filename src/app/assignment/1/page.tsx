@@ -1,22 +1,21 @@
 "use client"
-import { useState } from 'react'
 import { ListItem, ListTable } from '@/components/ListItem';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import styles from './page.module.css'
+import { useTodoList } from '@/modules/todo/hooks/useTodoList';
+import { Item } from '@/modules/todo/@types/todo';
 
 const products = require('@/data/product.json').map((item: any, key: number) => ({ ...item, _id: key + 1 }))
 
-type Item = {
-  _id?: number
-  type: string
-  name: string
-}
-
 export default function Assignment1() {
-  const [fruits, setFruit] = useState([])
-  const [vegetables, setVegetable] = useState([])
-  const [keys, setKey] = useState([])
+  const {
+    fruits,
+    vegetables,
+    keys,
+    handleAddItem,
+    handleDeleteItem,
+  } = useTodoList()
   const filterProduct = (item: Item) => {
     let result = keys.reduce((prev, cur) => {
       const add = item._id === cur ? 1 : 0
@@ -25,30 +24,6 @@ export default function Assignment1() {
     return result === 0
   }
   const productsFilter = products.filter(filterProduct)
-  const handleAddItem = (item: Item) => {
-    switch(item.type) {
-      case 'Fruit':
-        setFruit(fruits.concat([item]))
-        setKey(keys.concat(item._id))
-        break
-      case 'Vegetable':
-        setVegetable(vegetables.concat([item]))
-        setKey(keys.concat(item._id))
-        break
-    }
-  }
-  const handleDeleteItem = (item: Item) => {
-    switch(item.type) {
-      case 'Fruit':
-        setFruit(fruits.filter(cart => cart._id !== item._id))
-        setKey(keys.filter(key => key !== item._id))
-        break
-      case 'Vegetable':
-        setVegetable(vegetables.filter(cart => cart._id !== item._id))
-        setKey(keys.filter(key => key !== item._id))
-        break
-    }
-  }
   return (
     <main className={styles.main}>
       <Typography align='center' variant="h3" gutterBottom>

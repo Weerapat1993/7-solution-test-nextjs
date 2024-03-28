@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { createWrapper } from 'next-redux-wrapper';
 import userReducer from "./slices/userSlice";
+import todoReducer from "./slices/todoSlice";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 export const store = configureStore({
   reducer: {
     userReducer,
+    todoReducer,
   },
   devTools: process.env.NODE_ENV !== "production",
   middleware: (getDefaultMiddleware) =>

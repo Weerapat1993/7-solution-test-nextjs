@@ -1,5 +1,4 @@
 import axios from "axios";
-import { AppDispatch } from "../store";
 import { createAppSlice } from "../createAppSlice";
 
 type UserState = {
